@@ -16,9 +16,14 @@ docker run --detach `
   mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:vnext-preview `
   --protocol https
 ```
-`vnext-preview` is configured to work with WSL2, which fixes networking issues when docker containers through WSL2.
+`vnext-preview` is configured to work with WSL2, which fixes networking issues when docker containers with WSL2.
 `localhost:8081` for DB client connection.
 `localhost:1234` for DB explorer UI.
+
+### Running OLlama on Windows Machine
+https://docs.ollama.com/windows
+OLlama starts windows startup, default binding port is `11434`
+Python library documentation: https://github.com/ollama/ollama-python
 
 Next Steps:
 - chunking strategy for markdown documents

@@ -5,8 +5,8 @@ from azure.cosmos import CosmosClient, PartitionKey, exceptions
 # Start local instance with cosmos-startup.sh
 URL = "https://localhost:8081"
 KEY = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="
-DATABASE_NAME = "FootballNewsDB"
-CONTAINER_NAME = "25-26"
+DATABASE_NAME = "test_db"
+CONTAINER_NAME = "test_container"
 
 def get_cosmos_container_conn():
     # Sample vector embedding policy - review: must enable semantic search
