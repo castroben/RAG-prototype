@@ -2,10 +2,8 @@ import ollama
 
 EMBED_MODEL_NAME = "nomic-embed-text"
 EMBED_VECTOR_DIM = 768
-DOC_MODE = "DOC"
-QUERY_MODE = "QUERY"
 
-def get_embedding(text, mode=QUERY_MODE):
+def embed(text, mode="QUERY"):
     """
     Wraps the local Ollama API to generate a real 768-dim vector.
     """
@@ -19,5 +17,5 @@ def get_embedding(text, mode=QUERY_MODE):
 
 
 user_input = "Who is leading the Golden Boot race in the Premier League?"
-query_vector = get_embedding(user_input)
+query_vector = embed(user_input)
 print("text embedded successfully" if len(query_vector) == EMBED_VECTOR_DIM else "text embedded failed")

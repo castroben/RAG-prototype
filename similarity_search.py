@@ -1,6 +1,8 @@
 from azure.cosmos import CosmosClient, PartitionKey, exceptions
 from db_conn import get_cosmos_container_conn
+from embed import embed
 import urllib3
+import json
 
 # Disable warning for missing SSL certificate
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -15,19 +17,16 @@ CONTAINER_NAME = "25-26"
 
 client = CosmosClient(URL, credential=KEY)
 
-
-def save_document(container, doc_id, title, content, vector):
-    # This simulates saving a Markdown-converted news article
+def save_item(container, id, content, vector, metadata):
     item = {
-        "id": doc_id,
-        "title": title,
-        "content": content,  # Your Markdown content goes here
-        "season": "2025/2026",
-        "league": "Premier League",
-        "contentVector": vector  # The numerical representation of the content
+        "id": id,
+        "content": content,
+        "contentVector": vector
     }
+    item.update(metadata)
+
     container.upsert_item(item)
-    print(f"saved document={doc_id} successfully")
+    print(f"saved item={id} successfully")
 
 
 def similarity_search(container, query_vector, limit=2):
@@ -48,17 +47,26 @@ def similarity_search(container, query_vector, limit=2):
 
 container = get_cosmos_container_conn()
 
-# Mock data
-save_document(
+# container_properties = container.read()
+# print(json.dumps(container_properties, indent=2))
+
+
+content = "Madrid Update\nMbappe scores a hat-trick in the 2025 opener..."
+vector = embed(content, mode="DOC")
+save_item(
     container,
-    "1",
-    "Mbappe's Dominance in La Liga",
-    "### Madrid Update\nMbappe scores a hat-trick in the 2025 opener...",
-    [0.1, 0.9, 0.5] # Replace with model embeddings
+    "00000000-0000-0000-0000-000000000000",
+    content,
+    vector,
+    {
+        "title": "Madrid Update"
+    }
 )
 
-# Simulate query"
-user_query_vector = [0.12, 0.88, 0.45]
+user_query = "Who scored in  the 2025 opener?"
+user_query_vector = embed(user_query, "QUERY")
+
+similarity_search(container, user_query_vector)
 matches = similarity_search(container, user_query_vector)
 
 print("top matches for query:")
