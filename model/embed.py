@@ -14,8 +14,3 @@ def embed(text, mode="QUERY"):
         prompt=f"{prefix}{text}"
     )
     return response["embedding"]
-
-
-user_input = "Who is leading the Golden Boot race in the Premier League?"
-query_vector = embed(user_input)
-print("text embedded successfully" if len(query_vector) == EMBED_VECTOR_DIM else "text embedded failed")

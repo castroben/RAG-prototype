@@ -1,4 +1,5 @@
-from azure.cosmos import CosmosClient, PartitionKey, exceptions
+from azure.cosmos import CosmosClient, PartitionKey
+import json
 
 # Follow Azure CosmosDB emulator documentation
 # https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-develop-emulator
@@ -9,7 +10,6 @@ DATABASE_NAME = "test_db"
 CONTAINER_NAME = "test_container"
 
 def get_cosmos_container_conn():
-    # Sample vector embedding policy - review: must enable semantic search
     vector_embedding_policy = {
         "vectorEmbeddings": [
             {
@@ -20,8 +20,6 @@ def get_cosmos_container_conn():
             }
         ]
     }
-
-    # Sample indexing policy - review: must enable semantic search
     indexing_policy = {
         "indexingMode": "consistent",
         "automatic": True,
@@ -49,3 +47,6 @@ def get_cosmos_container_conn():
         return container
     except Exception as e:
         print(f"error creating container={CONTAINER_NAME} database={DATABASE_NAME} error={e}")
+
+def get_cosmos_container_properties(container):
+    return json.dumps(container.read(), indent=2)
