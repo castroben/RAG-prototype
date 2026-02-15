@@ -1,5 +1,5 @@
 from data import db_conn, load, chunk
-from model import embed
+from model import embed, converse
 from app import search
 import hashlib
 
@@ -65,17 +65,24 @@ def test_load(container):
             }
         )
 
-def test_search(container):
-    user_query = "What has Harry Kane become since joining Bayern Munich?"
-    user_query_vector = embed.embed(user_query, mode="QUERY")
+def test_converse(user_input, container):
+    vector = embed.embed(user_input, mode="QUERY")
+    results = search.similarity_search(container, vector)
 
-    matches = search.similarity_search(container, user_query_vector)
+    if not results:
+        return "no relevant articles found"
 
-    print("top matches for query:")
-    for match in matches:
-        print(f"{match['content'][:100]} (score: {match['SimilarityScore']:.4f})")
+    context = "\n---\n".join([
+        f"Content: {result['content']}"
+        for result in results
+    ])
+
+    answer = converse.invoke_conversation(context, user_input)
+    return answer
 
 if __name__ == "__main__":
     container = db_conn.get_cosmos_container_conn()
-    # test_load(container = container)
-    test_search(container = container)
+    query = "What has Harry Kane become since joining Bayern Munich?"
+
+    sys_output = test_converse(query, container)
+    print(sys_output)
