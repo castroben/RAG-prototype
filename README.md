@@ -2,10 +2,9 @@
 Very much WIP
 
 High level:
-1. Ingestion engine: exctract web content, convert to markdown
-2. Data processing: embed markdown, save to vector DB
-3. Semantic search: embed user query, search against vector DB
-4. RAG: feed semantic search contextual data to LLM
+1. Ingestion: extract web content, embed, save to vector DB
+2. Semantic search: embed user query, search against vector DB
+3. RAG: feed semantic search contextual data to LLM
 
 ### Running Cosmos DB Emulator on Docker
 https://github.com/Azure/azure-cosmos-db-emulator-docker
@@ -25,6 +24,11 @@ https://docs.ollama.com/windows
 OLlama starts windows startup, default binding port is `11434`
 Python library documentation: https://github.com/ollama/ollama-python
 
-Next Steps:
-- chunking strategy for markdown documents
-- generate chunks embeddings using LLM
+#### Embedding
+Using `nomic-embed-text` as embedding model for prototyping
+
+#### Conversation
+Using `qwen2.3:3b` for efficiency
+
+### OLlama & Langchain
+https://docs.langchain.com/oss/python/integrations/providers/ollama
