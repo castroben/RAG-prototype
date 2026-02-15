@@ -65,13 +65,6 @@ def test_load(container):
             }
         )
 
-def test_search(container, user_query):
-    user_query_vector = embed.embed(user_query, mode="QUERY")
-
-    results = search.similarity_search(container, user_query_vector)
-
-    return results
-
 def test_converse(user_input, container):
     vector = embed.embed(user_input, mode="QUERY")
     results = search.similarity_search(container, vector)
